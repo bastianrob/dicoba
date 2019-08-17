@@ -35,14 +35,15 @@ export default class CredentialService {
         return res
     }
 
-    async register(user, pass, confirm) {
+    async register(user, pass, confirm, claims) {
         let res = await fetch(baseUrl + "/oauth/register", {
             method: "POST",
             credentials: "include",
             body: JSON.stringify({
                 email: user,
                 password: pass,
-                confirm_password: confirm
+                confirm_password: confirm,
+                claims: claims
             })
         })
 

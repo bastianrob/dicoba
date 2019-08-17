@@ -195,7 +195,6 @@
       expect: {
         headers: [],
         status_code: 200,
-        evaluation_object: "",
         evaluate: []
       },
       pipeline: {
@@ -489,20 +488,20 @@
               <label>Status Code</label>
               <input bind:value={test.expect.status_code} type="number" placeholder="Status Code" class="form-control">
             </div>
-            <div class="form-group col-md-9">
-              <label>Evaluation Object</label>
-              <input bind:value={test.expect.evaluation_object} type="text" placeholder="Object to be evaluated" class="form-control">
-            </div>
           </div>
 
           <hr class="entry-sep-sm">
           {#each test.expect.evaluate as ev, idx}
           <div class="form-row">
             <div class="form-group col-sm-3">
+              {#if idx === 0}<label class="lbl-hide-sm">Evaluation Object</label>{/if}
+              <input bind:value={ev.object} type="text" placeholder="Evaluation object path" class="form-control">
+            </div>
+            <div class="form-group col-sm-2">
               {#if idx === 0}<label class="lbl-hide-sm">Property</label>{/if}
               <input bind:value={ev.prop} type="text" placeholder="Property name" class="form-control">
             </div>
-            <div class="form-group col-sm-3">
+            <div class="form-group col-sm-2">
               {#if idx === 0}<label class="lbl-hide-sm">Operator</label>{/if}
               <select bind:value={ev.operator} type="text" placeholder="Operator" class="form-control">
                 <option value=""></option>
@@ -516,7 +515,7 @@
                 <option value="<=">&lt;=</option>
               </select>
             </div>
-            <div class="form-group col-sm-5">
+            <div class="form-group col-sm-4">
               {#if idx === 0}<label class="lbl-hide-sm">Value</label>{/if}
               <input bind:value={ev.value} type="text" placeholder="Expected value" class="form-control">
             </div>
@@ -537,7 +536,7 @@
               <div class="btn-group">
                 <button on:click="{e => 
                   {
-                    test.expect.evaluate.push({prop: '', operator: '', value:''})
+                    test.expect.evaluate.push({object: '', prop: '', operator: '', value:''})
                     scenario = scenario //rebind
                   }
                 }" type="button" class="btn btn-primary">Add Evaluation</button>

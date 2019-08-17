@@ -59,9 +59,12 @@
 
   let orgService = new OrganizationService()
   let credService = new CredentialService()
-
-  let org_name = ""
   let first_setup = true
+  let org_name = ""
+  let org_alias = ""
+  let invite_mail = ""  
+  
+  let users = []
   let endpoints = []
   let environments = []
 
@@ -73,6 +76,20 @@
   function addEnvironment() {
     environments.push({name: "", value: "", checked: false})
     environments = environments
+  }
+
+  async function inviteOther() {
+    let res = await credService.register(invite_mail, "", "", {org: org_alias})
+    if (!res.ok) {
+      window.alert(`Failed to invite '${invite_mail}'`)
+      return
+    }
+
+    users.push(invite_mail)
+    users = users
+    invite_mail = ""
+
+    await submit()
   }
 
   async function create() {
@@ -97,16 +114,14 @@
         return
       }
 
+      org_alias = alias
       first_setup = false
       window.alert("Saved")
   }
 
-  async function update() {
-
-  }
-
   async function submit() {
     let org = {
+      users: users,
       endpoints: endpoints,
       environments: environments
     }
@@ -132,9 +147,11 @@
     if (!res.ok) return
 
     let body = await res.json()
+    org_alias = body.data.alias
     org_name = body.data.name
     first_setup = !org_name
 
+    users = body.data.users ? body.data.users : []
     endpoints = body.data.endpoints ? body.data.endpoints : []
     environments = body.data.environments ? body.data.environments : []
   })
@@ -149,6 +166,23 @@
         <input bind:value={org_name} disabled={!first_setup} type="text" placeholder="Your Organization Name" class="form-control">
       </div>
     </Collapse>
+
+    <Collapse expand="true" id="users" caption="Users">
+
+      {#each users as email}
+      <label>{email}</label><br>
+      {/each}
+
+      <div class="input-group-table">
+        <div class="input-group">
+          <input bind:value={invite_mail} type="email" placeholder="Work email" class="form-control">
+          <div class="input-group-append">
+            <button on:click={inviteOther} class="btn btn-outline-primary">Invite</button>
+          </div>
+        </div>
+      </div>
+    </Collapse>
+
     <Collapse expand="true" id="epd" caption="Endpoints">
       <div class="input-group-table">
         {#each endpoints as entry, idx}

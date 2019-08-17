@@ -1,4 +1,6 @@
-<style></style>
+<style>
+  a {display: block;}
+</style>
 
 <script>
   import { onMount } from 'svelte';

@@ -16,9 +16,8 @@
   let credSvc = new CredentialService()
 
   $: isActive = function (current) {
-    if (!current) return
-
-    return current.includes(segment) ? "active" : ""
+    console.log(segment, current)
+    return current === segment || current.includes(segment) ? "active" : ""
   }
 
   function logout() {
@@ -28,10 +27,10 @@
 
 <nav class="navbar navbar-expand navbar-dark bg-dark">
   <ul class="navbar-nav mr-auto">
-    <li class="nav-item {isActive('settings')}">
-      <a class="nav-link" href="dashboard/settings">Settings</a>
+    <li class="nav-item {segment === undefined ? 'active' : ''}">
+      <a class="nav-link" href="dashboard">Dashboard</a>
     </li>
-    <li class="nav-item {isActive('scenarios')}">
+    <li class="nav-item {segment === 'scenarios' ? 'active' : ''}">
       <a class="nav-link" href="dashboard/scenarios">Scenarios</a>
     </li>
   </ul>

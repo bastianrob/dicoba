@@ -47,20 +47,6 @@
     overflow: hidden;
     border: 1px solid #ddd;
   }
-
-  /*
-    .tab-close {
-      display: flex;
-      justify-content: flex-end;
-      padding: 1em;
-      font-size: 0.75em;
-      background: #2c3e50;
-      cursor: pointer;
-    }
-    .tab-close:hover {
-      background: #1a252f;
-    }
-  */
   
   input:checked+.tab-label {
     background: #1a252f;
@@ -71,8 +57,13 @@
   }
 
   input:checked~.tab-content {
-    max-height: 100vh;
+    max-height: fit-content;
     padding: 1em;
+  }
+
+
+  .tab-label > a {
+    color: inherit;
   }
 </style>
 
@@ -86,8 +77,8 @@
   <div class="tab">
     <input bind:checked={expand} type="checkbox" id={id} class="collapse">
     <label class="tab-label" for={id}>
-        <a name={anchor} href={href}>{caption}</a>
-      </label>
+      <a name={anchor} href={href}>{caption}</a>
+    </label>
     <div class="tab-content">
       <slot></slot>
     </div>
