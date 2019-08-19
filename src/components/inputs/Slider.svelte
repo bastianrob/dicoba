@@ -1,4 +1,15 @@
 <style>
+  .wrapper {
+    position: relative;
+  }
+
+  .caption {
+    font-size:14px;
+    pointer-events: none;
+    margin: 0;
+    color: orangered;
+  }
+
   .switch {
     position: relative;
     display: block;
@@ -38,11 +49,11 @@
   }
 
   input:checked + .slider {
-    background-color: #2196F3;
+    background-color: orangered;
   }
 
   input:focus + .slider {
-    box-shadow: 0 0 1px #2196F3;
+    box-shadow: 0 0 1px orangered;
   }
 
   input:checked + .slider:before {
@@ -61,15 +72,30 @@
   }
 
   .switch input:hover ~ .slider {
-    box-shadow: 0px 0px 0px 2px mediumslateblue;
+    box-shadow: 0px 0px 0px 1px mediumslateblue;
+  }
+
+  small {
+    color: crimson;
   }
 </style>
 
 <script>
+  export let caption = ""
+  export let error = ""
   export let checked = false
+  export let iserror = function() {return false}
+
+  let show_error = iserror(checked);
 </script>
 
-<label class="switch">
-  <input bind:checked={checked} type="checkbox">
-  <span class="slider round"></span>
-</label>
+<div class="wrapper">
+  <label class="caption">{caption}</label>
+  <label class="switch">
+    <input on:change='{e => show_error = iserror(checked)}' bind:checked={checked} type="checkbox">
+    <span class="slider round"></span>
+  </label>
+  {#if show_error}
+  <small>{error}</small>
+  {/if}
+</div>

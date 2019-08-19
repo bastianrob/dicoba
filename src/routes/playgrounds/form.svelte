@@ -2,6 +2,8 @@
 import Form from "../../components/layouts/Form.svelte"
 import Chips from "../../components/inputs/Chips.svelte"
 import Select from "../../components/inputs/Select.svelte"
+import Textbox from "../../components/inputs/Textbox.svelte"
+import Slider from "../../components/inputs/Slider.svelte"
 let schema = [{
   dom: {
     id: "price",
@@ -82,7 +84,15 @@ let selects = [{
 <!-- <Form schema={schema} on:form.submitted="{({detail: {datasource, datanext}})=>console.log(datasource, datanext)}"></Form> -->
 <!-- <Chips bind:datasource={chips}></Chips> -->
 <div style="margin:20px; width: 400px;">
-  <Chips bind:datasource={chips} theme="dark"></Chips>
+  <!-- <Chips bind:datasource={chips} theme="light"></Chips> -->
+  <!-- <button on:click="{() => console.log()}">LOOK</button> -->
+  <Textbox caption="Name" type="text"></Textbox>
+  <Textbox caption="Email" type="text"></Textbox>
+  <Textbox caption="Password" type="password"></Textbox>
+  <Textbox caption="Password Confirm" type="password" disabled></Textbox>
+  <Chips caption="Select" theme="light" error="Length <= 0 IS FORBIDDEN" 
+    iserror="{function(e){return e.length <= 0}}"></Chips>
+  <Slider caption="Check This" error="Must be checked" iserror="{v => !v}"></Slider>
+
   <!-- <Select multiple datasource={selects} caption_path="user.name" value_path=""></Select> -->
-  <button on:click="{() => console.log()}">LOOK</button>
 </div>
